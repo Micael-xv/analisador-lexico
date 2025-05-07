@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 import re
 
-# EXPRESSÕES REGULARES DOS TOKENS
 TOKENS = {
     'KEYWORD': r'\b(if|else|while|for|return|break|class|function|bool|int|float|char|void|switch|case|do)\b',
     'STRING': r'"[^"\n]*"|\'[^\'\n]*\'',
@@ -15,7 +14,6 @@ TOKENS = {
     'UNKNOWN': r'.'
 }
 
-# FUNÇÃO DE ANÁLISE LÉXICA
 def analisar_codigo(codigo):
     linhas = codigo.split('\n')
     resultado = []
@@ -42,7 +40,7 @@ def analisar_codigo(codigo):
                     pos = match.end(0)
                     break
             if not match:
-                erros.append((num_linha, linha[pos]))  # Adiciona um erro quando nada é encontrado
+                erros.append((num_linha, linha[pos])) 
                 pos += 1
     return resultado, tabela_simbolos, erros
 
@@ -66,12 +64,10 @@ def limpar_campos():
     erros_box.delete("1.0", tk.END)
     erros_box.config(state=tk.DISABLED)
 
-# JANELA PRINCIPAL
 root = tk.Tk()
 root.title("Analisador Léxico - Mini Compilador")
 root.geometry("950x750")
 
-# Entrada de Código
 tk.Label(root, text="Código de Entrada", font=("Arial", 12, "bold")).pack(anchor="center", padx=10)
 
 entrada_frame = tk.Frame(root)
@@ -82,7 +78,6 @@ entrada.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 entrada_scroll.pack(side=tk.RIGHT, fill=tk.Y)
 entrada_frame.pack(padx=10, pady=5)
 
-# Botões
 btns = tk.Frame(root)
 tk.Button(btns, text="Analisar", width=15, command=analisar).pack(side=tk.LEFT, padx=10)
 tk.Button(btns, text="Limpar Tudo", width=15, command=limpar_campos).pack(side=tk.LEFT, padx=10)
@@ -90,11 +85,9 @@ btns.pack(pady=10)
 
 tk.Label(root, text="Tokens Reconhecidos", font=("Arial", 12, "bold")).pack(anchor="w", padx=180)
 
-# Frame conjunto para Tokens + Erros
 tokens_erros_frame = tk.Frame(root)
 tokens_erros_frame.pack(padx=10, pady=5, fill=tk.BOTH, expand=True)
 
-# Tokens
 tree_frame = tk.Frame(tokens_erros_frame)
 tree_scroll = tk.Scrollbar(tree_frame)
 tree = ttk.Treeview(tree_frame, columns=("Token", "Lexema", "Linha"), show="headings", height=15, yscrollcommand=tree_scroll.set)
@@ -106,11 +99,9 @@ for col in tree["columns"]:
     tree.column(col, width=130)
 tree_frame.pack(side=tk.LEFT, padx=10, fill=tk.BOTH, expand=True)
 
-# Erros Léxicos
 erros_frame = tk.Frame(tokens_erros_frame)
 erros_scroll = tk.Scrollbar(erros_frame)
 
-# Título do relatório de erros dentro do frame
 erros_title = tk.Label(erros_frame, text="Relatório de Erros Léxicos", font=("Arial", 12, "bold"))
 erros_title.pack(anchor="center", padx=5)
 
@@ -121,8 +112,6 @@ erros_scroll.pack(side=tk.RIGHT, fill=tk.Y)
 erros_box.config(state=tk.DISABLED)
 erros_frame.pack(side=tk.LEFT, padx=10, fill=tk.BOTH, expand=True)
 
-# Tabela de Símbolos
 tk.Label(root, text="Tabela de Símbolos", font=("Arial", 12, "bold")).pack(anchor="center", padx=10)
 
-# Executar
 root.mainloop()
